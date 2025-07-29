@@ -45,7 +45,7 @@ ngrok http --basic-auth=user:password [port]
 ```
 
 Once you have executed the command, something like this will apear on your shell: 
-![ngrok_shell](images/ngrok-rcp.png)
+![ngrok_shell](images/ngrok_rcp.png)
 
 Your public url is shown here and now you only have to replace in the code the old localhost url with the new public url.
 
