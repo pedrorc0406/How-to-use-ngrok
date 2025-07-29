@@ -45,9 +45,62 @@ ngrok http --basic-auth=user:password [port]
 ```
 
 Once you have executed the command, something like this will apear on your shell: 
-![ngrok_shell](images/ngrok_rcp.png)
+![ngrok_shell](images/ngrok_rcp.jpg)
 
 Your public url is shown here and now you only have to replace in the code the old localhost url with the new public url.
+
+It is important to remark that if you shut down the ngrok service and you are using the free plan, the url will change the next time you turn on ngrok.
+
+
+
+## Example of use
+
+Imagine that you and your team are developing an app in flutter which requieres access to a server which allocates a postgresql database. If you all are working on your owns PCs and want to share the database, you could use a docker where run the database and use ngrok in order to have the same database with the same registers. One option is using a **raspberry pi** as a server and everyone could connect it thanks to the public url that ngrok will provide.
+
+
+Your register_screen will have a code like this: 
+
+``` dart 
+
+    final url = Uri.parse('http://10.0.2.2:8000/auth/register');  // /auth/token if you are in login screen
+
+    
+    final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'email': _email, 'password': _password}),
+    );
+
+```
+
+Where "http://10.0.2.2:8000" is the url of your local database. If everyone wants the same database, you should replace that url and use the ngrok url instead.
+
+For example, if you have decided to use --basic-auth, you will need to use a header in the post, like it is shown here: 
+
+``` dart
+
+    final url = Uri.parse('https://xxxxxxx.ngrok-free.app/auth/register'); // /auth/token for login_screen
+
+    final authHeader = 'Basic ' + base64Encode(utf8.encode('user:password'));
+
+  
+    final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader,
+        },
+          body: json.encode({'email': _email, 'password': _password}),
+     ); 
+
+```
+
+
+
+
+
+
+
 
 
 
